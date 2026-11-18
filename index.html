@@ -308,12 +308,18 @@ function renderBooks() {
     return matchesFilter && matchesSearch;
   });
 
-  document.getElementById("books").innerHTML = list.map(w => `
+  
+document.getElementById("books").innerHTML = list.map(w => `
     <article class="book">
       <div class="cover ${w.cover}">
         <span>♡ MY STORY ♡</span>
         <strong>${w.title}</strong>
       </div>
+
+      <span class="status-badge status-${w.status.toLowerCase().replace(/[^a-z]/g, '')}">
+        ${w.status.toUpperCase()}
+      </span>
+
       <h3>${w.title}</h3>
       <div class="meta">${w.status} · ${w.words}</div>
       <p class="summary">${w.summary}</p>
