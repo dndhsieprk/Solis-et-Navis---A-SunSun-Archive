@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solis et Navis: A Sunsun Archives ♡</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap');
+
+:root {
+  --bg: #fffaf7;
+  --pink: #f5dce8;
+  --lilac: #e8e0f4;
+  --mint: #e0eee5;
+  --butter: #f8edcf;
+  --ink: #6d596b;
+  --accent: #b78ca9;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+}
+
+header {
+  text-align: center;
+  padding: 45px 20px 25px;
+}
+
+header .small {
+  letter-spacing: 3px;
+  font-size: 11px;
+  color: var(--accent);
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 8vw, 54px);
+  margin: 12px 0;
+  color: #997a9c;
+}
+
+.subtitle {
+  color: #b49bb3;
+  font-size: 14px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px;
+}
+
+nav button, .filter {
+  border: 0;
+  padding: 10px 16px;
+  border-radius: 25px;
+  background: white;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+nav button.active { background: var(--pink); }
+
+.container {
+  max-width: 950px;
+  margin: auto;
+  padding: 15px;
+}
+
+.search {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  margin: 10px auto 30px;
+  padding: 13px 18px;
+  border: 1px solid #eddfeb;
+  border-radius: 30px;
+  outline: none;
+  background: white;
+  font-size: 14px;
+}
+
+.section-title {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: #a487a6;
+  margin: 30px 0;
+}
+
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+.book {
+  background: white;
+  padding: 14px;
+  border-radius: 20px;
+  border: 1px solid #f1e5ef;
+  transition: transform .2s;
+}
+
+.book:hover { transform: translateY(-3px); }
+
+.cover {
+  height: 175px;
+  border-radius: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 15px;
+  font-family: 'Playfair Display', serif;
+}
+
+.cover span { font-size: 12px; letter-spacing: 2px; }
+.cover strong { font-size: 23px; margin-top: 12px; }
+
+.pink { background: var(--pink); }
+.lilac { background: var(--lilac); }
+.mint { background: var(--mint); }
+.butter { background: var(--butter); }
+
+.book h3 {
+  font-family: 'Playfair Display', serif;
+  margin: 13px 2px 5px;
+  font-size: 19px;
+}
+
+.meta { font-size: 12px; color: #b29bb0; margin-bottom: 12px; }
+.summary { font-size: 13px; line-height: 1.6; }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.tag {
+  background: #f7eff7;
+  border-radius: 20px;
+  padding: 5px 9px;
+  font-size: 11px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 15px;
+}
+
+.actions a, .actions button {
+  text-decoration: none;
+  border: 0;
+  padding: 9px 11px;
+  border-radius: 10px;
+  font-size: 12px;
+  background: #f8e8ef;
+  color: #8b6d83;
+  cursor: pointer;
+}
+
+.actions .epub { background: #eee7f8; color: #82719c; }
+.actions .ao3 { background: #e6f1e8; color: #6c907b; }
+
+footer {
+  text-align: center;
+  padding: 40px 15px;
+  font-size: 12px;
+  color: #b49bb3;
+}
+
+@media (max-width: 480px) {
+  .books { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cover { height: 145px; }
+  .book { padding: 10px; }
+  .book h3 { font-size: 16px; }
+  .actions a, .actions button { padding: 8px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="small">♡ A LITTLE HOME FOR MY STORIES ♡</div>
+  <h1>The Story Garden</h1>
+  <p class="subtitle">a shelf full of stories, feelings & little worlds ✿</p>
+</header>
+
+<nav>
+  <button class="active" onclick="filterBooks('all', this)">All Works</button>
+  <button onclick="filterBooks('completed', this)">Completed</button>
+  <button onclick="filterBooks('ongoing', this)">Ongoing</button>
+  <button onclick="filterBooks('oneshot', this)">One-shots</button>
+</nav>
+
+<div class="container">
+  <input class="search" id="search" placeholder="⌕ Find a story..." oninput="renderBooks()">
+  <h2 class="section-title">୨୧ My Bookshelf ୨୧</h2>
+  <div class="books" id="books"></div>
+</div>
+
+<footer>
+  Made with love, tea & too many ideas ♡
+</footer>
+
+<script>
+const works = [
+  {
+    title: "Your Story Title",
+    status: "completed",
+    type: "multi",
+    author: "Your Pseudonym",
+    words: "20,000 words",
+    summary: "Replace this with your story summary. A little glimpse into the world of this AU.",
+    tags: ["SunSun", "Filipino AU", "Romance"],
+    cover: "pink",
+    epub: "",
+    ao3: "",
+    chapters: []
+  },
+  {
+    title: "Another Story",
+    status: "ongoing",
+    type: "multi",
+    author: "Your Pseudonym",
+    words: "In progress",
+    summary: "Your second story's summary goes here.",
+    tags: ["Slow Burn", "Fluff", "AU"],
+    cover: "lilac",
+    epub: "",
+    ao3: "",
+    chapters: []
+  },
+  {
+    title: "Little One-shot",
+    status: "completed",
+    type: "oneshot",
+    author: "Your Pseudonym",
+    words: "3,000 words",
+    summary: "A short story for readers to enjoy in one sitting.",
+    tags: ["One-shot", "Romance"],
+    cover: "mint",
+    epub: "",
+    ao3: "",
+    chapters: []
+  }
+];
+
+let currentFilter = "all";
+
+function renderBooks() {
+  const search = document.getElementById("search").value.toLowerCase();
+  const list = works.filter(w => {
+    const matchesFilter =
+      currentFilter === "all" ||
+      w.status === currentFilter ||
+      w.type === currentFilter;
+    const matchesSearch =
+      (w.title + w.summary + w.tags.join(" ")).toLowerCase().includes(search);
+    return matchesFilter && matchesSearch;
+  });
+
+  document.getElementById("books").innerHTML = list.map(w => `
+    <article class="book">
+      <div class="cover ${w.cover}">
+        <span>♡ MY STORY ♡</span>
+        <strong>${w.title}</strong>
+      </div>
+      <h3>${w.title}</h3>
+      <div class="meta">${w.status} · ${w.words}</div>
+      <p class="summary">${w.summary}</p>
+      <div class="tags">
+        ${w.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
+      </div>
+      <div class="actions">
+        <button onclick="readWork('${w.title}')">Read</button>
+        <a class="epub" href="${w.epub || '#'}"
+           onclick="return checkLink(event, this.href, '${w.epub}', 'EPUB')">EPUB ↓</a>
+        <a class="ao3" href="${w.ao3 || '#'}" target="_blank"
+           onclick="return checkLink(event, this.href, '${w.ao3}', 'AO3')">AO3 ↗</a>
+      </div>
+    </article>
+  `).join("");
+}
+
+function filterBooks(filter, button) {
+  currentFilter = filter;
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  button.classList.add("active");
+  renderBooks();
+}
+
+function readWork(title) {
+  alert("We'll add the built-in chapter reader for " + title + " in a later step ♡");
+}
+
+function checkLink(event, href, link, type) {
+  if (!link) {
+    event.preventDefault();
+    alert(type + " link hasn't been added yet! We'll connect it when we add your stories ♡");
+    return false;
+  }
+  return true;
+}
+
+renderBooks();
+</script>
+</body>
+  </html>
+  
