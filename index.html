@@ -483,7 +483,6 @@ const works = [
 
 let currentFilter = "all";
   
-  {
   // ===== SOLIS ET NIVIS ANNOUNCEMENTS =====
 
 const announcements = [
@@ -525,8 +524,8 @@ function showAnnouncement(index) {
   const readButton = document.getElementById("announcementRead");
   const dots = document.getElementById("announcementDots");
 
-  if (!banner  !label  !title  !info 
-      !description  !readButton  !dots) {
+  if (!banner || !label || !title || !info ||
+    !description || !readButton || !dots) { 
     console.error("Announcement elements could not be found.");
     return;
   }
@@ -543,7 +542,7 @@ function showAnnouncement(index) {
 
   banner.style.setProperty(
     "--announcement-image",
-    url("${item.image}")
+`url("${item.image}")`
   );
 
   readButton.style.display = item.workTitle ? "inline-block" : "none";
@@ -615,6 +614,7 @@ if (document.readyState === "loading") {
 }
 
 // ===== END SOLIS ET NIVIS ANNOUNCEMENTS =====
+  
 function renderBooks() {
   const search = document.getElementById("search").value.toLowerCase();
   const list = works.filter(w => {
