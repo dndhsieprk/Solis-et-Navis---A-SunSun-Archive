@@ -524,7 +524,8 @@ function showAnnouncement(index) {
   const readButton = document.getElementById("announcementRead");
   const dots = document.getElementById("announcementDots");
 
-  if (!banner || !label || !title || !info ||
+  if (!banner || !label || !title || !info 
+      ||
     !description || !readButton || !dots) { 
     console.error("Announcement elements could not be found.");
     return;
