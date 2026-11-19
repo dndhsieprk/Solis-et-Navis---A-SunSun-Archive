@@ -1291,6 +1291,320 @@ Thank you! ♡`;
 </script>
 
 <!-- ===== END SOLIS ET NIVIS COMMISSION MAILBOX ===== -->
+
+  
+<!-- ===== SOLIS ET NIVIS ANONYMOUS QUESTION BOX ===== -->
+
+<section id="anonymousAsk">
+  <h2>Letters to the Author ♡</h2>
+
+  <div class="ask-intro">
+    <p>Have a question, a thought, or something you'd like to tell me?</p>
+    <p>Leave me a little letter. You can stay completely anonymous. ❀</p>
+  </div>
+
+  <form id="anonymousForm">
+    <textarea
+      id="anonymousQuestion"
+      maxlength="2000"
+      placeholder="Dear author, I wanted to ask..."
+      required
+    ></textarea>
+
+    <button type="submit">♡ Send My Anonymous Letter ♡</button>
+  </form>
+
+  <p id="anonymousStatus" role="status"></p>
+
+  <hr class="commission-divider">
+
+  <h3>Letters Answered ❀</h3>
+  <p class="ask-intro">A little collection of questions and answers from my readers.</p>
+
+  <div id="publicAnswers">
+    <p class="ask-intro">Loading letters...</p>
+  </div>
+</section>
+
+<!-- PRIVATE AUTHOR DASHBOARD -->
+
+<section id="authorDashboard" hidden>
+  <h2>Author's Private Desk ♡</h2>
+
+  <form id="authorLogin">
+    <label for="authorEmail">AUTHOR EMAIL</label>
+    <input type="email" id="authorEmail" required>
+
+    <label for="authorPassword">PASSWORD</label>
+    <input type="password" id="authorPassword" required>
+
+    <button type="submit">Sign in ♡</button>
+  </form>
+
+  <p id="authorStatus" role="status"></p>
+
+  <div id="authorPanel" hidden>
+    <h3>Received Letters</h3>
+    <div id="privateQuestions"></div>
+    <button type="button" id="authorLogout">Log out</button>
+  </div>
+</section>
+
+<!-- ===== END ANONYMOUS QUESTION BOX ===== -->
+
+  
+<!-- ===== SUPABASE ANONYMOUS Q&A CONNECTION ===== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+(function () {
+  const SUPABASE_URL = "https://pqlikchuxflcyhyyudrz.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_CQWTfzllLjUculglJGoGUg_lWCXm2zH";
+  const AUTHOR_ID = "ee225202-c2f5-43fa-aadd-2bbd7c5cbee4";
+
+  const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  const questionForm = document.getElementById("anonymousForm");
+  const questionInput = document.getElementById("anonymousQuestion");
+  const questionStatus = document.getElementById("anonymousStatus");
+  const publicAnswers = document.getElementById("publicAnswers");
+
+  const dashboard = document.getElementById("authorDashboard");
+  const loginForm = document.getElementById("authorLogin");
+  const authorStatus = document.getElementById("authorStatus");
+  const authorPanel = document.getElementById("authorPanel");
+  const privateQuestions = document.getElementById("privateQuestions");
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, function (char) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char];
+    });
+  }
+
+  // SHOW PUBLICLY PUBLISHED QUESTIONS
+
+  async function loadPublicAnswers() {
+    const { data, error } = await db
+      .from("questions")
+      .select("id, question, answer, created_at")
+      .eq("is_published", true)
+      .not("answer", "is", null)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      publicAnswers.textContent = "Unable to load letters right now.";
+      console.error(error);
+      return;
+    }
+
+    if (!data.length) {
+      publicAnswers.textContent = "No answered letters yet. Be the first to ask! ♡";
+      return;
+    }
+
+    publicAnswers.innerHTML = data.map(item => `
+      <article class="public-answer">
+        <span class="question-label">♡ ANONYMOUS ASKED</span>
+        <p>${escapeHTML(item.question)}</p>
+        <hr class="commission-divider">
+        <span class="answer-label">✿ AUTHOR REPLIED</span>
+        <p>${escapeHTML(item.answer)}</p>
+      </article>
+    `).join("");
+  }
+
+  // SUBMIT AN ANONYMOUS QUESTION
+
+  questionForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const question = questionInput.value.trim();
+
+    if (!question) return;
+
+    const submitButton = questionForm.querySelector("button");
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending your letter...";
+
+    const { error } = await db
+      .from("questions")
+      .insert([{ question: question }]);
+
+    if (error) {
+      questionStatus.textContent =
+        "Oh no! Your letter couldn't be sent. Please try again.";
+      console.error(error);
+    } else {
+      questionInput.value = "";
+      questionStatus.textContent =
+        "Your anonymous letter has been delivered! Thank you. ♡";
+    }
+
+    submitButton.disabled = false;
+    submitButton.textContent = "♡ Send My Anonymous Letter ♡";
+  });
+
+  // PRIVATE AUTHOR DASHBOARD
+
+  async function loadPrivateQuestions() {
+    privateQuestions.textContent = "Loading letters...";
+
+    const { data, error } = await db
+      .from("questions")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      privateQuestions.textContent = "Unable to load your letters.";
+      console.error(error);
+      return;
+    }
+
+    if (!data.length) {
+      privateQuestions.textContent = "No letters have arrived yet. ♡";
+      return;
+    }
+
+    privateQuestions.innerHTML = data.map(item => `
+      <article class="public-answer">
+        <span class="question-label">
+          ${item.is_published ? "PUBLISHED LETTER" : "UNANSWERED LETTER"}
+        </span>
+        <p>${escapeHTML(item.question)}</p>
+        <label>YOUR REPLY</label>
+        <textarea
+          id="reply-${item.id}"
+          maxlength="5000"
+          placeholder="Write your reply here..."
+          style="width:100%;min-height:100px;padding:12px;border-radius:10px;border:1px solid #E8DCEB;box-sizing:border-box;font:inherit;"
+        >${escapeHTML(item.answer || "")}</textarea>
+        <button type="button" data-question-id="${item.id}">
+          ♡ ${item.is_published ? "Update Published Reply" : "Publish Reply"} ♡
+        </button>
+      </article>
+    `).join("");
+
+    privateQuestions.querySelectorAll("button[data-question-id]")
+      .forEach(button => {
+        button.addEventListener("click", async function () {
+          const id = this.dataset.questionId;
+          const answer = document.getElementById("reply-" + id).value.trim();
+
+          if (!answer) {
+            alert("Please write your reply first.");
+            return;
+          }
+
+          this.disabled = true;
+          this.textContent = "Publishing...";
+
+          const { error } = await db
+            .from("questions")
+            .update({
+              answer: answer,
+              is_published: true
+            })
+            .eq("id", id);
+
+          if (error) {
+            alert("Unable to publish. Please try again.");
+            console.error(error);
+          } else {
+            alert("Your reply has been published! ♡");
+            await loadPrivateQuestions();
+            await loadPublicAnswers();
+          }
+
+          this.disabled = false;
+        });
+      });
+  }
+
+  async function checkAuthor() {
+    const { data: { session } } = await db.auth.getSession();
+
+    if (!session) {
+      loginForm.hidden = false;
+      authorPanel.hidden = true;
+      return;
+    }
+
+    if (session.user.id !== AUTHOR_ID) {
+      await db.auth.signOut();
+      authorStatus.textContent = "This account isn't authorized.";
+      return;
+    }
+
+    loginForm.hidden = true;
+    authorPanel.hidden = false;
+    authorStatus.textContent = "Welcome back, Author! ♡";
+
+    await loadPrivateQuestions();
+  }
+
+  loginForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    authorStatus.textContent = "Signing in...";
+
+    const email = document.getElementById("authorEmail").value;
+    const password = document.getElementById("authorPassword").value;
+
+    const { data, error } = await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (error) {
+      authorStatus.textContent = "Login failed. Check your email and password.";
+      return;
+    }
+
+    if (data.user.id !== AUTHOR_ID) {
+      await db.auth.signOut();
+      authorStatus.textContent = "This account isn't authorized.";
+      return;
+    }
+
+    await checkAuthor();
+  });
+
+  document.getElementById("authorLogout").addEventListener("click", async function () {
+    await db.auth.signOut();
+    authorPanel.hidden = true;
+    loginForm.hidden = false;
+    authorStatus.textContent = "You have logged out.";
+  });
+
+  // OPEN AUTHOR DESK USING WEBSITE URL + #author
+
+  function updateDashboardVisibility() {
+    dashboard.hidden = location.hash !== "#author";
+
+    if (!dashboard.hidden) {
+      checkAuthor();
+    }
+  }
+
+  window.addEventListener("hashchange", updateDashboardVisibility);
+
+  updateDashboardVisibility();
+  loadPublicAnswers();
+
+})();
+</script>
+
+<!-- ===== END SUPABASE ANONYMOUS Q&A CONNECTION ===== -->
   
 </body>
   </html>
