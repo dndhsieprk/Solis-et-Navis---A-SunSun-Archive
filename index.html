@@ -438,6 +438,265 @@ footer {
   Made with love, tea & too many ideas ♡
 </footer>
 
+  
+/* ===== SOLIS ET NIVIS FLOATING COMMISSION MAILBOX ===== */
+
+#commissionChat,
+#commissionChat * {
+  box-sizing: border-box;
+}
+
+#commissionChat {
+  --mail-pink: #F2DDE8;
+  --mail-lilac: #E9E2F3;
+  --mail-cream: #FFF9F3;
+  --mail-ink: #63566F;
+  --mail-accent: #A58BB6;
+
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 9999;
+  font-family: inherit;
+}
+
+#commissionBubble {
+  border: 1px solid #d9c8e5;
+  background: linear-gradient(145deg, #F2DDE8, #E9E2F3);
+  color: var(--mail-ink);
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  box-shadow: 0 5px 20px rgba(99, 86, 111, .20);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  transition: transform .25s, box-shadow .25s;
+}
+
+#commissionBubble:hover {
+  transform: translateY(-5px) rotate(-5deg);
+  box-shadow: 0 9px 25px rgba(99, 86, 111, .25);
+}
+
+#commissionBubble .mail-icon {
+  font-size: 27px;
+  line-height: 1;
+}
+
+#commissionBubble .mail-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+
+#commissionWindow {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: 90px;
+  width: min(390px, calc(100vw - 32px));
+  max-height: min(690px, calc(100dvh - 130px));
+  overflow-y: auto;
+  background: var(--mail-cream);
+  border: 1px solid #e4d6e8;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(99, 86, 111, .22);
+  color: var(--mail-ink);
+  animation: letterAppear .3s ease;
+}
+
+#commissionWindow.open {
+  display: block;
+}
+
+@keyframes letterAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.commission-header {
+  background: linear-gradient(135deg, #F2DDE8, #E9E2F3);
+  padding: 17px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 19px 19px 0 0;
+}
+
+.commission-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.commission-subtitle {
+  display: block;
+  font-size: 10px;
+  margin-top: 3px;
+  letter-spacing: 1px;
+}
+
+#closeCommission {
+  border: none;
+  background: rgba(255,255,255,.55);
+  color: var(--mail-ink);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.commission-content {
+  padding: 20px;
+}
+
+.commission-decoration {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 7px;
+}
+
+.commission-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 25px;
+  font-style: italic;
+  text-align: center;
+  color: #9278A5;
+  margin: 5px 0 8px;
+}
+
+.commission-intro {
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: center;
+  color: #84768C;
+  margin: 0 0 20px;
+}
+
+.commission-divider {
+  border: none;
+  border-top: 1px dashed #DCCCE3;
+  margin: 17px 0;
+}
+
+.commission-form label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: #88729D;
+  margin: 14px 0 6px;
+}
+
+.commission-form input,
+.commission-form select,
+.commission-form textarea {
+  width: 100%;
+  border: 1px solid #E8DCEB;
+  border-radius: 10px;
+  background: #FFFFFF;
+  color: #63566F;
+  padding: 11px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.commission-form input:focus,
+.commission-form select:focus,
+.commission-form textarea:focus {
+  border-color: #B79BC8;
+  box-shadow: 0 0 0 3px rgba(165,139,182,.12);
+}
+
+.commission-form textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.6;
+}
+
+.commission-form input::placeholder,
+.commission-form textarea::placeholder {
+  color: #B3A8BA;
+}
+
+.commission-submit {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border: 1px solid #D8C7E5;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #F2DDE8, #E9E2F3);
+  color: #63566F;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.commission-submit:hover {
+  transform: translateY(-2px);
+}
+
+.commission-note {
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.7;
+  color: #9B8BA3;
+  margin: 15px 0 5px;
+}
+
+.commission-signature {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: #A58BB6;
+  margin-top: 15px;
+}
+
+/* Mobile adjustments */
+
+@media (max-width: 480px) {
+  #commissionChat {
+    right: 15px;
+    bottom: 15px;
+  }
+
+  #commissionBubble {
+    width: 68px;
+    height: 68px;
+  }
+
+  #commissionWindow {
+    bottom: 80px;
+    width: calc(100vw - 30px);
+    max-height: calc(100dvh - 110px);
+  }
+
+  .commission-content {
+    padding: 16px;
+  }
+}
+
+#commissionChat [hidden] {
+  display: none !important;
+}
+
+/* ===== END COMMISSION MAILBOX CSS ===== */
+
 <script>
 const works = [
   {
@@ -679,6 +938,260 @@ function checkLink(event, href, link, type) {
 
 renderBooks();
 </script>
+  
+<!-- ===== SOLIS ET NIVIS COMMISSION MAILBOX ===== -->
+
+<div id="commissionChat">
+
+  <!-- FLOATING ENVELOPE BUBBLE -->
+
+  <button id="commissionBubble" type="button"
+          aria-label="Open commission mailbox"
+          aria-expanded="false">
+    <span class="mail-icon">💌</span>
+    <span class="mail-label">Write to me</span>
+  </button>
+
+  <!-- STATIONERY LETTER WINDOW -->
+
+  <div id="commissionWindow" aria-label="Commission inquiry">
+
+    <div class="commission-header">
+      <div>
+        <div class="commission-brand">Solis et Nivis ♡</div>
+        <small class="commission-subtitle">
+          THE LITTLE COMMISSION DESK
+        </small>
+      </div>
+
+      <button id="closeCommission" type="button"
+              aria-label="Close commission letter">×</button>
+    </div>
+
+    <div class="commission-content">
+
+      <div class="commission-decoration">✿ ❀ ✿</div>
+
+      <h2 class="commission-title">
+        A Letter to the Author
+      </h2>
+
+      <p class="commission-intro">
+        Every story begins with a little imagination.
+        Tell me about the story you've been dreaming of,
+        and let's bring it to life together. ♡
+      </p>
+
+      <hr class="commission-divider">
+
+      <form id="commissionForm" class="commission-form">
+
+        <label for="commissionName">
+          YOUR NAME OR NICKNAME
+        </label>
+        <input
+          type="text"
+          id="commissionName"
+          placeholder="What should I call you?"
+          required
+        >
+
+        <label for="commissionPairing">
+          PAIRING / CHARACTERS
+        </label>
+        <input
+          type="text"
+          id="commissionPairing"
+          placeholder="e.g. SunSun"
+          required
+        >
+
+        <label for="commissionGenre">
+          PREFERRED GENRE
+        </label>
+        <select id="commissionGenre" required>
+          <option value="">Choose your genre</option>
+          <option>Romance</option>
+          <option>Angst</option>
+          <option>Fluff</option>
+          <option>Fantasy</option>
+          <option>Comedy</option>
+          <option>Horror</option>
+          <option>Slice of Life</option>
+          <option>Others</option>
+        </select>
+
+        <label for="commissionPlot">
+          YOUR DESIRED PLOT
+        </label>
+        <textarea
+          id="commissionPlot"
+          placeholder="Dear author, here's the story I've been imagining..."
+          required
+        ></textarea>
+
+        <label for="commissionLength">
+          PREFERRED STORY LENGTH
+        </label>
+        <select id="commissionLength" required>
+          <option value="">Choose a story length</option>
+          <option>One-shot</option>
+          <option>3,000–5,000 words</option>
+          <option>5,000–10,000 words</option>
+          <option>10,000+ words</option>
+          <option>Negotiable</option>
+        </select>
+
+        <label for="commissionBudget">
+          PROPOSED BUDGET (PHP)
+        </label>
+        <input
+          type="text"
+          id="commissionBudget"
+          placeholder="e.g. ₱300 or negotiable"
+          required
+        >
+
+        <label for="commissionContact">
+          YOUR CONTACT DETAILS
+        </label>
+        <input
+          type="text"
+          id="commissionContact"
+          placeholder="Your Telegram username or preferred contact"
+          required
+        >
+
+        <label for="commissionReference">
+          INSPIRATION / REFERENCE LINKS (OPTIONAL)
+        </label>
+        <input
+          type="url"
+          id="commissionReference"
+          placeholder="Paste a link if you have one"
+        >
+
+        <button type="submit" class="commission-submit">
+          ♡ Send My Letter via Telegram ♡
+        </button>
+
+      </form>
+
+      <p class="commission-note">
+        Pricing is negotiable depending on the plot,
+        requested length, and complexity of the commission.
+        Final arrangements will be discussed privately.
+      </p>
+
+      <div class="commission-signature">
+        sealed with love, from the author's desk ❀
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+
+  const bubble = document.getElementById("commissionBubble");
+  const windowBox = document.getElementById("commissionWindow");
+  const closeButton = document.getElementById("closeCommission");
+  const form = document.getElementById("commissionForm");
+
+  if (!bubble || !windowBox || !closeButton || !form) {
+    console.error("Commission mailbox elements not found.");
+    return;
+  }
+
+  // OPEN THE LETTER
+
+  function openLetter() {
+    windowBox.classList.add("open");
+    bubble.setAttribute("aria-expanded", "true");
+  }
+
+  // CLOSE THE LETTER
+
+  function closeLetter() {
+    windowBox.classList.remove("open");
+    bubble.setAttribute("aria-expanded", "false");
+  }
+
+  bubble.addEventListener("click", function () {
+    if (windowBox.classList.contains("open")) {
+      closeLetter();
+    } else {
+      openLetter();
+    }
+  });
+
+  closeButton.addEventListener("click", closeLetter);
+
+  // PREPARE THE TELEGRAM COMMISSION MESSAGE
+
+  form.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("commissionName").value.trim();
+    const pairing = document.getElementById("commissionPairing").value.trim();
+    const genre = document.getElementById("commissionGenre").value;
+    const plot = document.getElementById("commissionPlot").value.trim();
+    const length = document.getElementById("commissionLength").value;
+    const budget = document.getElementById("commissionBudget").value.trim();
+    const contact = document.getElementById("commissionContact").value.trim();
+    const reference = document.getElementById("commissionReference").value.trim();
+
+    const message =
+`💌 NEW COMMISSION INQUIRY
+Solis et Nivis Archive
+
+Dear Author,
+
+I would like to inquire about commissioning a story!
+
+♡ NAME / NICKNAME:
+${name}
+
+♡ PAIRING / CHARACTERS:
+${pairing}
+
+♡ PREFERRED GENRE:
+${genre}
+
+♡ DESIRED PLOT:
+${plot}
+
+♡ PREFERRED LENGTH:
+${length}
+
+♡ PROPOSED BUDGET:
+${budget}
+
+♡ MY CONTACT DETAILS:
+${contact}
+
+♡ INSPIRATION / REFERENCES:
+${reference || "None provided"}
+
+I understand that the commission price and arrangements are negotiable.
+
+Thank you! ♡`;
+
+    const telegramURL =
+      "https://t.me/dndhsieprk?text=" + encodeURIComponent(message);
+
+    window.open(telegramURL, "_blank");
+
+  });
+
+})();
+</script>
+
+<!-- ===== END SOLIS ET NIVIS COMMISSION MAILBOX ===== -->
+  
 </body>
   </html>
   
