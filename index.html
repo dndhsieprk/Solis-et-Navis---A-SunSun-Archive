@@ -243,25 +243,33 @@ footer {
   margin: 0;
 }
 
+
 .announcement-banner {
+  width: 100%;
+  aspect-ratio: 16 / 9;
   min-height: 300px;
+  max-height: 520px;
   border-radius: 24px;
   overflow: hidden;
   position: relative;
+
   background:
     linear-gradient(90deg,
       rgba(48, 38, 64, 0.88) 0%,
       rgba(48, 38, 64, 0.55) 55%,
       rgba(48, 38, 64, 0.08) 100%),
     var(--announcement-image, linear-gradient(135deg, #c8b5dc, #f2dce9, #b9d7e8));
+
   background-size: cover;
   background-position: center;
+
   display: flex;
   align-items: flex-end;
+
   box-shadow: 0 8px 24px rgba(112, 91, 133, 0.12);
   transition: background-image 0.5s ease;
 }
-
+  
 .announcement-overlay {
   padding: 28px;
   width: 100%;
