@@ -473,6 +473,50 @@ footer {
 }
 
 /* ===== END ANONYMOUS Q&A CSS ===== */
+  /* ===== SOLIS ET NIVIS FALLING STICKERS ===== */
+
+.falling-sticker {
+  position: fixed;
+  top: -45px;
+  left: 0;
+  z-index: 9990;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  opacity: 0;
+  animation: stickerFall var(--fall-duration) linear forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes stickerFall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  10% {
+    opacity: var(--sticker-opacity);
+  }
+
+  85% {
+    opacity: var(--sticker-opacity);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--sideways), 110vh, 0)
+      rotate(var(--rotation));
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .falling-sticker {
+    display: none !important;
+  }
+}
+
+/* ===== END FALLING STICKERS CSS ===== */
   
 </style>
 </head>
@@ -1605,6 +1649,74 @@ Thank you! ♡`;
 </script>
 
 <!-- ===== END SUPABASE ANONYMOUS Q&A CONNECTION ===== -->
+
+  <!-- ===== SOLIS ET NIVIS SCROLL STICKERS ===== -->
+
+<script>
+(function () {
+  const stickers = ["🎀", "❄", "✿", "☀", "✧", "♡", "🌸", "📖"];
+
+  let lastScroll = 0;
+  let stickerCount = 0;
+
+  function dropSticker() {
+    if (stickerCount >= 12) return;
+
+    const sticker = document.createElement("span");
+    sticker.className = "falling-sticker";
+    sticker.textContent =
+      stickers[Math.floor(Math.random() * stickers.length)];
+
+    const size = 14 + Math.random() * 15;
+    const duration = 3 + Math.random() * 3;
+
+    sticker.style.left = Math.random() * 95 + "vw";
+    sticker.style.fontSize = size + "px";
+    sticker.style.setProperty("--fall-duration", duration + "s");
+    sticker.style.setProperty(
+      "--sideways",
+      (Math.random() * 140 - 70) + "px"
+    );
+    sticker.style.setProperty(
+      "--rotation",
+      (Math.random() * 360 - 180) + "deg"
+    );
+    sticker.style.setProperty(
+      "--sticker-opacity",
+      0.35 + Math.random() * 0.4
+    );
+
+    document.body.appendChild(sticker);
+    stickerCount++;
+
+    sticker.addEventListener("animationend", function () {
+      sticker.remove();
+      stickerCount--;
+    });
+  }
+
+  window.addEventListener("scroll", function () {
+    const now = Date.now();
+
+    if (now - lastScroll < 180) return;
+
+    lastScroll = now;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    dropSticker();
+
+    if (Math.random() > 0.6) {
+      dropSticker();
+    }
+  }, { passive: true });
+
+})();
+</script>
+
+<!-- ===== END SCROLL STICKERS ===== -->
   
 </body>
   </html>
