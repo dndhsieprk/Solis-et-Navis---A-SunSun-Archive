@@ -482,11 +482,14 @@ const works = [
 ];
 
 let currentFilter = "all";
-  const announcements = [
+  {
+  // ===== SOLIS ET NIVIS ANNOUNCEMENTS =====
+
+const announcements = [
   {
     label: "✧ NEW CHAPTER",
     title: "Your Story Title",
-    info: "Chapter 08 · November 18, 2026",
+    info: "Chapter 08 · November 19, 2026",
     description: "A new chapter is finally here! Thank you for reading and supporting this little story of mine. ♡",
     image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1400&q=80",
     workTitle: "Your Story Title"
@@ -510,49 +513,107 @@ let currentFilter = "all";
 ];
 
 let announcementIndex = 0;
+let announcementTimer = null;
 
 function showAnnouncement(index) {
-  announcementIndex = (index + announcements.length) % announcements.length;
+  const banner = document.getElementById("announcementBanner");
+  const label = document.getElementById("announcementLabel");
+  const title = document.getElementById("announcementTitle");
+  const info = document.getElementById("announcementInfo");
+  const description = document.getElementById("announcementDescription");
+  const readButton = document.getElementById("announcementRead");
+  const dots = document.getElementById("announcementDots");
+
+  if (!banner  !label  !title  !info 
+      !description  !readButton  !dots) {
+    console.error("Announcement elements could not be found.");
+    return;
+  }
+
+  announcementIndex =
+    (index + announcements.length) % announcements.length;
+
   const item = announcements[announcementIndex];
 
-  document.getElementById("announcementLabel").textContent = item.label;
-  document.getElementById("announcementTitle").textContent = item.title;
-  document.getElementById("announcementInfo").textContent = item.info;
-  document.getElementById("announcementDescription").textContent = item.description;
+  label.textContent = item.label;
+  title.textContent = item.title;
+  info.textContent = item.info;
+  description.textContent = item.description;
 
-  document.getElementById("announcementBanner").style.setProperty(
+  banner.style.setProperty(
     "--announcement-image",
     url("${item.image}")
   );
 
-  document.getElementById("announcementRead").style.display =
-    item.workTitle ? "inline-block" : "none";
+  readButton.style.display = item.workTitle ? "inline-block" : "none";
 
-  document.getElementById("announcementRead").onclick = () => {
-    if (item.workTitle) readWork(item.workTitle);
+  readButton.onclick = function () {
+    if (item.workTitle) {
+      readWork(item.workTitle);
+    }
   };
 
-  const dots = document.getElementById("announcementDots");
+  dots.innerHTML = "";
 
-  dots.innerHTML = announcements.map((_, i) =>
-    <button class="announcement-dot ${i === announcementIndex ? "active" : ""}"
-      onclick="showAnnouncement(${i})"
-      aria-label="Announcement ${i + 1}"></button>
-  ).join("");
+  announcements.forEach((announcement, i) => {
+    const dot = document.createElement("button");
+
+    dot.className =
+      "announcement-dot" +
+      (i === announcementIndex ? " active" : "");
+
+    dot.setAttribute("aria-label", "Announcement " + (i + 1));
+
+    dot.addEventListener("click", function () {
+      showAnnouncement(i);
+      restartAnnouncementTimer();
+    });
+
+    dots.appendChild(dot);
+  });
 }
 
-document.getElementById("announcementPrev").onclick = () =>
-  showAnnouncement(announcementIndex - 1);
+function restartAnnouncementTimer() {
+  clearInterval(announcementTimer);
 
-document.getElementById("announcementNext").onclick = () =>
-  showAnnouncement(announcementIndex + 1);
+  announcementTimer = setInterval(function () {
+    showAnnouncement(announcementIndex + 1);
+  }, 7000);
+}
 
-showAnnouncement(0);
+function initializeAnnouncements() {
+  const previous = document.getElementById("announcementPrev");
+  const next = document.getElementById("announcementNext");
 
-setInterval(() => {
-  showAnnouncement(announcementIndex + 1);
-}, 7000);
+  if (!previous || !next) {
+    console.error("Announcement navigation buttons not found.");
+    return;
+  }
 
+  previous.onclick = function () {
+    showAnnouncement(announcementIndex - 1);
+    restartAnnouncementTimer();
+  };
+
+  next.onclick = function () {
+    showAnnouncement(announcementIndex + 1);
+    restartAnnouncementTimer();
+  };
+
+  showAnnouncement(0);
+  restartAnnouncementTimer();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener(
+    "DOMContentLoaded",
+    initializeAnnouncements
+  );
+} else {
+  initializeAnnouncements();
+}
+
+// ===== END SOLIS ET NIVIS ANNOUNCEMENTS =====
 function renderBooks() {
   const search = document.getElementById("search").value.toLowerCase();
   const list = works.filter(w => {
