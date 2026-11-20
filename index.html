@@ -1960,6 +1960,44 @@ Thank you! ♡`;
 </script>
 
 <!-- ===== END SCROLL STICKERS ===== -->
+
+  
+<!-- ===== WEVERSE TIMELINE FILTERS ===== -->
+
+<script>
+(function () {
+  const filterButtons = document.querySelectorAll(
+    ".weverse-filter-btn"
+  );
+
+  const entries = document.querySelectorAll(
+    ".weverse-entry"
+  );
+
+  filterButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const selected = this.dataset.filter;
+
+      filterButtons.forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+      this.classList.add("active");
+
+      entries.forEach(entry => {
+        const member = entry.dataset.member;
+
+        entry.style.display =
+          selected === "all" || selected === member
+            ? "block"
+            : "none";
+      });
+    });
+  });
+})();
+</script>
+
+<!-- ===== END WEVERSE TIMELINE FILTERS ===== -->
   
 </body>
   </html>
