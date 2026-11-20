@@ -2145,11 +2145,15 @@ Thank you! ♡`;
   function openMusic() {
     musicWindow.classList.add("open");
     musicBubble.setAttribute("aria-expanded", "true");
+
+  document.getElementById("commissionBubble").style.display = "none";
   }
 
   function closeMusic() {
     musicWindow.classList.remove("open");
     musicBubble.setAttribute("aria-expanded", "false");
+
+  document.getElementById("commissionBubble").style.display = "flex";
   }
 
   // OPEN / TOGGLE MUSIC ARCHIVE
