@@ -1197,6 +1197,14 @@ box-sizing: border-box;
 }
 
 /* ===== END FLOATING MUSIC BUTTON ===== */
+
+/* ===== HIDE MUSIC BUBBLE WHEN COMMISSION WINDOW IS OPEN ===== */
+
+#commissionChat:has(#commissionWindow.open) #musicBubble {
+  display: none !important;
+}
+
+/* ===== END FLOATING BUBBLE VISIBILITY FIX ===== */
     
 /* ===== SOLIS ET NIVIS WEVERSE MOMENTS ===== */
 
