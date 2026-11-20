@@ -1048,20 +1048,25 @@ box-sizing: border-box;
 }
 
 #commissionBubble {
-  border: 1px solid #d9c8e5;
-  background: linear-gradient(145deg, #F2DDE8, #E9E2F3);
-  color: var(--mail-ink);
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
-  box-shadow: 0 5px 20px rgba(99, 86, 111, .20);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
-  transition: transform .25s, box-shadow .25s;
+  position: fixed;
+right: 25px;
+bottom: 25px;
+z-index: 9999;
+  
+border: 1px solid #d9c8e5;
+background: linear-gradient(145deg, #F2DDE8, #E9E2F3);
+color: var(--mail-ink);
+width: 76px;
+height: 76px;
+border-radius: 50%;
+box-shadow: 0 5px 20px rgba(99, 86, 111, .20);
+cursor: pointer;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 2px;
+transition: transform .25s, box-shadow .25s;
 }
 
 #commissionBubble:hover {
