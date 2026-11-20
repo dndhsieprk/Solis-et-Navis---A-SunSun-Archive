@@ -1205,6 +1205,13 @@ box-sizing: border-box;
 }
 
 /* ===== END FLOATING BUBBLE VISIBILITY FIX ===== */
+
+
+/* Hide music bubble when commission mailbox is open */
+
+#commissionChat:has(#commissionWindow.open) #musicBubble {
+  display: none !important;
+}
     
 /* ===== SOLIS ET NIVIS WEVERSE MOMENTS ===== */
 
