@@ -2078,6 +2078,62 @@ Thank you! ♡`;
 
 <!-- ===== END SOLIS ET NIVIS COMMISSION MAILBOX ===== -->
 
+<!-- ===== SOLIS ET NIVIS MUSIC FUNCTIONALITY ===== -->
+<script>
+(function () {
+  const musicBubble = document.getElementById("musicBubble");
+  const musicWindow = document.getElementById("musicWindow");
+  const musicClose = document.getElementById("musicClose");
+
+  if (!musicBubble || !musicWindow || !musicClose) {
+    console.error("Music archive elements not found.");
+    return;
+  }
+
+  function openMusic() {
+    musicWindow.classList.add("open");
+    musicBubble.setAttribute("aria-expanded", "true");
+  }
+
+  function closeMusic() {
+    musicWindow.classList.remove("open");
+    musicBubble.setAttribute("aria-expanded", "false");
+  }
+
+  // OPEN / TOGGLE MUSIC ARCHIVE
+  musicBubble.addEventListener("click", function () {
+    if (musicWindow.classList.contains("open")) {
+      closeMusic();
+    } else {
+      openMusic();
+    }
+  });
+
+  // CLOSE BUTTON
+  musicClose.addEventListener("click", closeMusic);
+
+  // CLOSE WHEN CLICKING OUTSIDE
+  document.addEventListener("click", function (event) {
+    if (
+      musicWindow.classList.contains("open") &&
+      !musicWindow.contains(event.target) &&
+      !musicBubble.contains(event.target)
+    ) {
+      closeMusic();
+    }
+  });
+
+  // CLOSE WITH ESCAPE KEY
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeMusic();
+    }
+  });
+
+})();
+</script>
+<!-- ===== END MUSIC FUNCTIONALITY ===== -->
+
   <!-- PRIVATE AUTHOR DASHBOARD -->
 
 <section id="authorDashboard" hidden>
