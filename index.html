@@ -1259,6 +1259,32 @@ box-sizing: border-box;
 
 /* ===== END WEVERSE MOMENTS CSS ===== */
 
+/* ===== AUTHOR'S CORNER TWO-COLUMN LAYOUT ===== */
+
+.author-corner-grid {
+  width: calc(100% - clamp(24px, 6vw, 80px));
+  margin: 35px auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.author-corner-grid > section {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .author-corner-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* ===== END AUTHOR'S CORNER LAYOUT ===== */
+
 </style>
     
 <script>
