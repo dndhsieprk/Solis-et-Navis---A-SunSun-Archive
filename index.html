@@ -2170,6 +2170,49 @@ Thank you! ♡`;
 </script>
 <!-- ===== END MUSIC FUNCTIONALITY ===== -->
 
+// ===== SUNSUN ROTATING PHOTO ARCHIVE =====
+
+const musicPhotoCard = document.getElementById("musicPhotoCard");
+
+if (musicPhotoCard) {
+
+  const sunsunPhotos = [
+  "sunsun-1.jpg",
+  "sunsun-2.jpg",
+  "sunsun-3.jpg",
+  "sunsun-4.jpg"
+];
+
+  let currentPhoto = 0;
+
+  const photo = document.createElement("img");
+  photo.alt = "SUNSUN photo archive";
+  musicPhotoCard.prepend(photo);
+
+  function changeSunsunPhoto() {
+    photo.classList.remove("visible");
+
+    setTimeout(() => {
+      photo.onload = function () {
+        photo.classList.add("visible");
+      };
+
+      photo.onerror = function () {
+        console.error("SUNSUN photo could not load:", photo.src);
+      };
+
+      photo.src = sunsunPhotos[currentPhoto];
+      currentPhoto = (currentPhoto + 1) % sunsunPhotos.length;
+
+    }, 500);
+  }
+
+  changeSunsunPhoto();
+  setInterval(changeSunsunPhoto, 5000);
+}
+
+// ===== END SUNSUN PHOTO ARCHIVE =====
+
 <!-- PRIVATE AUTHOR DASHBOARD -->
 
 <section id="authorDashboard" hidden>
