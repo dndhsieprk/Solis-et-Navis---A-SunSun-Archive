@@ -1085,6 +1085,11 @@ transition: transform .25s, box-shadow .25s;
   letter-spacing: .3px;
 }
 
+/* Hide commission bubble when music archive is open */
+#musicWindow.open ~ #commissionBubble {
+  display: none;
+}
+
 #commissionWindow {
   display: none;
   position: absolute;
