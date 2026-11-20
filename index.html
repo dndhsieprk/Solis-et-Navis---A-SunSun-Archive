@@ -521,6 +521,165 @@ box-sizing: border-box;
 }
 
 /* ===== END FALLING STICKERS CSS ===== */
+
+  
+/* ===== SOLIS ET NIVIS WEVERSE MOMENTS ===== */
+
+#weverseMoments {
+  width: calc(100% - clamp(24px, 6vw, 80px));
+  margin: 55px auto;
+  padding: 28px;
+  box-sizing: border-box;
+  background: #FFF9F3;
+  border: 1px solid #E8DCEB;
+  border-radius: 24px;
+  color: #63566F;
+  box-shadow: 0 5px 18px rgba(99,86,111,.07);
+}
+
+.weverse-heading {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.weverse-heading > span {
+  font-size: 25px;
+}
+
+.weverse-heading h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 29px;
+  font-style: italic;
+  font-weight: 400;
+  color: #9278A5;
+  margin: 9px 0;
+}
+
+.weverse-heading p {
+  font-size: 13px;
+  color: #84768C;
+  margin: 6px 0;
+}
+
+.weverse-heading small {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #A58BB6;
+}
+
+.weverse-filter {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 22px 0;
+}
+
+.weverse-filter-btn {
+  border: 1px solid #E3D6EA;
+  border-radius: 20px;
+  padding: 9px 16px;
+  background: white;
+  color: #84768C;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.weverse-filter-btn.active {
+  background: #E9E2F3;
+  color: #63566F;
+  border-color: #D9C8E5;
+}
+
+.weverse-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 10px;
+  color: #9B8BA3;
+  margin-bottom: 18px;
+}
+
+.weverse-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #C9B7D7;
+}
+
+.weverse-entry {
+  background: #F7F0FA;
+  border: 1px solid #E8DCEB;
+  border-radius: 17px;
+  padding: 19px;
+  margin-bottom: 14px;
+}
+
+.weverse-entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.weverse-entry-top strong {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #9278A5;
+}
+
+.weverse-time {
+  font-size: 10px;
+  color: #A99BAF;
+}
+
+.weverse-caption {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.8;
+  color: #A2768D;
+  margin: 17px 0;
+}
+
+.weverse-entry a {
+  color: #9278A5;
+  font-size: 11px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.weverse-entry a:hover {
+  text-decoration: underline;
+}
+
+.weverse-footnote {
+  text-align: center;
+  font-size: 10px;
+  color: #A99BAF;
+  line-height: 1.7;
+  margin-top: 22px;
+}
+
+@media (max-width: 600px) {
+  #weverseMoments {
+    padding: 19px;
+    border-radius: 19px;
+  }
+
+  .weverse-heading h2 {
+    font-size: 24px;
+  }
+
+  .weverse-entry {
+    padding: 15px;
+  }
+}
+
+/* ===== END WEVERSE MOMENTS CSS ===== */
   
 </style>
 </head>
