@@ -2170,18 +2170,18 @@ Thank you! ♡`;
 </script>
 <!-- ===== END MUSIC FUNCTIONALITY ===== -->
 
-// ===== SUNSUN ROTATING PHOTO ARCHIVE =====
-
+<!-- ===== SUNSUN ROTATING PHOTO ARCHIVE ===== -->
+<script>
 const musicPhotoCard = document.getElementById("musicPhotoCard");
 
 if (musicPhotoCard) {
 
   const sunsunPhotos = [
-  "sunsun-1.jpg",
-  "sunsun-2.jpg",
-  "sunsun-3.jpg",
-  "sunsun-4.jpg"
-];
+    "sunsun-1.jpg",
+    "sunsun-2.jpg",
+    "sunsun-3.jpg",
+    "sunsun-4.jpg"
+  ];
 
   let currentPhoto = 0;
 
@@ -2190,9 +2190,11 @@ if (musicPhotoCard) {
   musicPhotoCard.prepend(photo);
 
   function changeSunsunPhoto() {
+
     photo.classList.remove("visible");
 
     setTimeout(() => {
+
       photo.onload = function () {
         photo.classList.add("visible");
       };
@@ -2202,6 +2204,7 @@ if (musicPhotoCard) {
       };
 
       photo.src = sunsunPhotos[currentPhoto];
+
       currentPhoto = (currentPhoto + 1) % sunsunPhotos.length;
 
     }, 500);
@@ -2210,8 +2213,8 @@ if (musicPhotoCard) {
   changeSunsunPhoto();
   setInterval(changeSunsunPhoto, 5000);
 }
-
-// ===== END SUNSUN PHOTO ARCHIVE =====
+</script>
+<!-- ===== END SUNSUN PHOTO ARCHIVE ===== -->
 
 <!-- PRIVATE AUTHOR DASHBOARD -->
 
