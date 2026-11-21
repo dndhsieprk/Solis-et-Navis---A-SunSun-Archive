@@ -2140,17 +2140,17 @@ Thank you! ♡`;
   }
 
   function openMusic() {
-    musicWindow.classList.add("open");
-    musicBubble.setAttribute("aria-expanded", "true");
-    commissionBubble.style.display = "none";
-  }
+  musicWindow.classList.add("open");
+  musicBubble.setAttribute("aria-expanded", "true");
+  commissionBubble.classList.add("hidden-by-music");
+}
 
-  function closeMusic() {
-    musicWindow.classList.remove("open");
-    musicBubble.setAttribute("aria-expanded", "false");
-    commissionBubble.style.display = "flex";
-  }
-
+function closeMusic() {
+  musicWindow.classList.remove("open");
+  musicBubble.setAttribute("aria-expanded", "false");
+  commissionBubble.classList.remove("hidden-by-music");
+}
+  
   musicBubble.addEventListener("click", function () {
     if (musicWindow.classList.contains("open")) {
       closeMusic();
