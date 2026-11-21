@@ -2341,6 +2341,59 @@ if (musicPhotoCard) {
     SUPABASE_KEY
   );
 
+// ===== SONG DEDICATION BOX =====
+
+const songButton = document.getElementById("openSongSuggestion");
+const songFormArea = document.getElementById("songSuggestionForm");
+const songForm = document.getElementById("songSuggestionSubmit");
+const songMessage = document.getElementById("songSuggestionMessage");
+
+// Open and close the suggestion form
+songButton.addEventListener("click", () => {
+  songFormArea.style.display =
+    songFormArea.style.display === "none" ? "block" : "none";
+});
+
+// Submit song suggestion to Supabase
+songForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const submitButton = songForm.querySelector('button[type="submit"]');
+
+  submitButton.disabled = true;
+  submitButton.textContent = "Sending... ♡";
+  songMessage.textContent = "";
+
+  const suggestion = {
+    reader_name: document.getElementById("songReaderName").value.trim() || null,
+    story_title: document.getElementById("songStoryTitle").value.trim(),
+    song_title: document.getElementById("songTitle").value.trim(),
+    artist: document.getElementById("songArtist").value.trim(),
+    spotify_url: document.getElementById("songSpotify").value.trim() || null,
+    reason: document.getElementById("songReason").value.trim(),
+    status: "pending"
+  };
+
+  const { error } = await db
+    .from("song_suggestions")
+    .insert([suggestion]);
+
+  if (error) {
+    songMessage.textContent =
+      "Oh no! Your suggestion wasn't sent. Please try again. ♡";
+    console.error("Song suggestion error:", error);
+  } else {
+    songMessage.textContent =
+      "Your song dedication has been received! Thank you, lovely reader. ♡";
+    songForm.reset();
+  }
+
+  submitButton.disabled = false;
+  submitButton.textContent = "Send Song Dedication ♡";
+});
+
+// ===== END SONG DEDICATION BOX =====
+
   const questionForm = document.getElementById("anonymousForm");
   const questionInput = document.getElementById("anonymousQuestion");
   const questionStatus = document.getElementById("anonymousStatus");
