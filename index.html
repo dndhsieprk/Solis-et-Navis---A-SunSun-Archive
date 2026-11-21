@@ -1913,6 +1913,40 @@ renderBooks();
 
 </div>
 <!-- END MUSIC WINDOW -->
+
+<!-- SONG SUGGESTION FORM -->
+<div id="songSuggestionForm" style="display:none;">
+
+  <h3>Share a Song ♡</h3>
+
+  <form id="songSuggestionSubmit">
+
+    <label>Your name or nickname (optional)</label>
+    <input type="text" id="songReaderName" placeholder="Anonymous reader">
+
+    <label>Which story is this song for?</label>
+    <input type="text" id="songStoryTitle" required placeholder="Story title">
+
+    <label>Song title</label>
+    <input type="text" id="songTitle" required placeholder="Title of the song">
+
+    <label>Artist</label>
+    <input type="text" id="songArtist" required placeholder="Artist name">
+
+    <label>Spotify link (optional)</label>
+    <input type="url" id="songSpotify" placeholder="https://open.spotify.com/...">
+
+    <label>Why does this song fit the story?</label>
+    <textarea id="songReason" required placeholder="Tell me the scene, character, or feeling it reminds you of..."></textarea>
+
+    <button type="submit">Send Song Dedication ♡</button>
+
+    <p id="songSuggestionMessage"></p>
+
+  </form>
+
+</div>
+<!-- END SONG SUGGESTION FORM -->
   
 <!-- FLOATING ENVELOPE BUBBLE -->
 
