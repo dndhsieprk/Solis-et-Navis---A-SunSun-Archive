@@ -1851,6 +1851,13 @@ transition: transform .25s, box-shadow .25s;
   max-height: 420px;
   object-fit: cover;
   border-radius: 14px;
+
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.weverse-featured-photo img.visible {
+  opacity: 1;
 }
 
 .weverse-featured-photo p {
