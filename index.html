@@ -2496,15 +2496,17 @@ songForm.addEventListener("submit", async (event) => {
     .insert([suggestion]);
 
   if (error) {
-    songMessage.textContent =
-      "Oh no! Your suggestion wasn't sent. Please try again. ♡";
-    console.error("Song suggestion error:", error);
-  } else {
-    songMessage.textContent =
-      "Your song dedication has been received! Thank you, lovely reader. ♡";
-    songForm.reset();
-  }
+  songMessage.textContent =
+    "Error: " + error.message;
 
+  console.error("Song suggestion error:", error);
+
+} else {
+  songMessage.textContent =
+    "Your song dedication has been received! Thank you, lovely reader. ♡";
+
+  songForm.reset();
+  }
   submitButton.disabled = false;
   submitButton.textContent = "Send Song Dedication ♡";
 });
