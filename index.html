@@ -3249,30 +3249,127 @@ async function loadApprovedSongSuggestions() {
 
 <!-- ===== END WEVERSE TIMELINE FILTERS ===== -->
 
-<!-- ===== WEVERSE FEATURED PHOTO ROTATION ===== -->
+<!-- ===== WEVERSE FEATURED MOMENT MANAGER ===== -->
 <script>
 (function () {
   const featuredPhoto = document.getElementById("weverseFeaturedPhoto");
-
   if (!featuredPhoto) return;
 
-  const photos = [
-    "weverse-photos/weverse-sunghoon-1.jpg",
-    "weverse-photos/weverse-sunghoon-2.jpg",
-    "weverse-photos/weverse-sunghoon-3.jpg",
-    "weverse-photos/weverse-sunghoon-4.jpg"
+  // ADD NEW WEVERSE UPDATES HERE
+  const weverseUpdates = [
+    {
+      member: "sunghoon",
+      date: "2026-11-21",
+      caption: "A little winter moment from Sunghoon ♡",
+      link: "https://weverse.io/enhypen/artist",
+      photos: [
+        "weverse-photos/weverse-sunghoon-1.jpg",
+        "weverse-photos/weverse-sunghoon-2.jpg",
+        "weverse-photos/weverse-sunghoon-3.jpg",
+        "weverse-photos/weverse-sunghoon-4.jpg"
+      ]
+    }
   ];
+
+  const latestDate = weverseUpdates
+    .map(item => item.date)
+    .sort()
+    .pop();
+
+  const latestUpdates = weverseUpdates.filter(
+    item => item.date === latestDate
+  );
+
+  const sunooPosted = latestUpdates.some(
+    item => item.member === "sunoo"
+  );
+
+  const sunghoonPosted = latestUpdates.some(
+    item => item.member === "sunghoon"
+  );
+
+  const bothPostedPhotos =
+    sunooPosted &&
+    sunghoonPosted &&
+    latestUpdates.some(item =>
+      item.member === "sunoo" && item.photos.length
+    ) &&
+    latestUpdates.some(item =>
+      item.member === "sunghoon" && item.photos.length
+    );
+
+  const photoUpdates = latestUpdates.filter(
+    item => item.photos.length > 0
+  );
+
+  const slides = photoUpdates.flatMap(item =>
+    item.photos.map(src => ({
+      src,
+      member: item.member,
+      caption: item.caption,
+      link: item.link,
+      date: item.date
+    }))
+  );
+
+  const memberLabel = document.getElementById("weverseFeaturedMember");
+  const title = document.getElementById("weverseFeaturedTitle");
+  const caption = document.getElementById("weverseFeaturedCaption");
+  const dateLabel = document.getElementById("weverseFeaturedDate");
+  const originalLink = document.getElementById("weverseFeaturedLink");
+
+  function updateDetails(item) {
+    memberLabel.textContent =
+      item.member === "sunoo" ? "☀️ SUNOO" : "❄️ SUNGHOON";
+
+    title.textContent =
+      item.member === "sunoo"
+        ? "A little sunshine moment"
+        : "A little winter moment";
+
+    caption.textContent = item.caption;
+    dateLabel.textContent = new Date(
+      item.date + "T12:00:00"
+    ).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    }).toUpperCase();
+
+    originalLink.href = item.link;
+  }
+
+  // TEXT-ONLY FEATURED MOMENT
+  if (slides.length === 0) {
+    featuredPhoto.innerHTML = "";
+
+    const textCard = document.createElement("div");
+    textCard.className = "weverse-featured-text-only";
+    textCard.textContent = latestUpdates
+      .map(item => item.caption)
+      .join(" ♡ ");
+
+    featuredPhoto.appendChild(textCard);
+    updateDetails(latestUpdates[latestUpdates.length - 1]);
+    return;
+  }
+
+  // DISPLAY PHOTO
+  const photo = document.createElement("img");
+  photo.alt = "Featured Weverse moment";
+  featuredPhoto.innerHTML = "";
+  featuredPhoto.appendChild(photo);
 
   let currentPhoto = 0;
 
-  const photo = featuredPhoto.querySelector("img");
+  function showPhoto(index, animate = true) {
+    const item = slides[index];
 
-  if (!photo) return;
+    if (animate) {
+      photo.classList.remove("visible");
+    }
 
-  function changeFeaturedPhoto() {
-    photo.classList.remove("visible");
-
-    setTimeout(() => {
+    const loadPhoto = () => {
       photo.onload = function () {
         photo.classList.add("visible");
       };
@@ -3281,18 +3378,31 @@ async function loadApprovedSongSuggestions() {
         console.error("Weverse photo could not load:", photo.src);
       };
 
-      photo.src = photos[currentPhoto];
+      photo.src = item.src;
+      updateDetails(item);
+    };
 
-      currentPhoto = (currentPhoto + 1) % photos.length;
-    }, 500);
+    if (animate) {
+      setTimeout(loadPhoto, 500);
+    } else {
+      loadPhoto();
+    }
   }
 
-  changeFeaturedPhoto();
-  setInterval(changeFeaturedPhoto, 5000);
+  // ROTATE ONLY WHEN BOTH MEMBERS POST PHOTOS
+  showPhoto(0, false);
+
+  if (bothPostedPhotos && slides.length > 1) {
+    setInterval(() => {
+      currentPhoto = (currentPhoto + 1) % slides.length;
+      showPhoto(currentPhoto);
+    }, 5000);
+  }
+
 })();
 </script>
-<!-- ===== END WEVERSE FEATURED PHOTO ROTATION ===== -->
-  
+<!-- ===== END WEVERSE FEATURED MOMENT MANAGER ===== -->
+      
 </body>
   </html>
   
