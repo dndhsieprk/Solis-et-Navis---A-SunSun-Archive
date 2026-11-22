@@ -2686,6 +2686,89 @@ songForm.addEventListener("submit", async (event) => {
       });
   }
 
+  
+// ===== LOAD PRIVATE SONG DEDICATIONS =====
+
+async function loadPrivateSongSuggestions() {
+  const songInbox = document.getElementById("privateSongSuggestions");
+
+  songInbox.textContent = "Loading song dedications... ♡";
+
+  const { data, error } = await db
+    .from("song_suggestions")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    songInbox.textContent = "Unable to load song dedications.";
+    console.error("Song inbox error:", error);
+    return;
+  }
+
+  if (!data.length) {
+    songInbox.textContent = "No song dedications yet. ♡";
+    return;
+  }
+
+  songInbox.innerHTML = data.map(item => `
+    <article class="public-answer">
+      <span class="question-label">
+        ${escapeHTML(item.status.toUpperCase())}
+      </span>
+
+      <h4>${escapeHTML(item.song_title)} — ${escapeHTML(item.artist)}</h4>
+
+      <p><strong>Reader:</strong> ${escapeHTML(item.reader_name || "Anonymous")}</p>
+      <p><strong>Story:</strong> ${escapeHTML(item.story_title)}</p>
+      <p><strong>Why they chose it:</strong></p>
+      <p>${escapeHTML(item.reason)}</p>
+
+      ${item.spotify_url
+        ? `<p><strong>Spotify:</strong> ${escapeHTML(item.spotify_url)}</p>`
+        : ""}
+
+      ${item.status === "pending" ? `
+        <button type="button" data-song-action="approved" data-song-id="${item.id}">
+          ♡ Approve
+        </button>
+
+        <button type="button" data-song-action="rejected" data-song-id="${item.id}">
+          Reject
+        </button>
+      ` : ""}
+    </article>
+  `).join("");
+
+  songInbox.querySelectorAll("button[data-song-action]")
+    .forEach(button => {
+      button.addEventListener("click", async function () {
+        const id = this.dataset.songId;
+        const status = this.dataset.songAction;
+
+        this.disabled = true;
+        this.textContent = "Updating...";
+
+        const { error } = await db
+          .from("song_suggestions")
+          .update({ status: status })
+          .eq("id", id);
+
+        if (error) {
+          alert("Unable to update this suggestion.");
+          console.error(error);
+        } else {
+          alert(status === "approved"
+            ? "Song dedication approved! ♡"
+            : "Song dedication rejected.");
+
+          await loadPrivateSongSuggestions();
+        }
+      });
+    });
+}
+
+// ===== END PRIVATE SONG DEDICATIONS =====
+
   async function checkAuthor() {
     const { data: { session } } = await db.auth.getSession();
 
