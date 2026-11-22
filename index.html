@@ -2856,6 +2856,80 @@ async function loadPrivateSongSuggestions() {
 
 // ===== END PRIVATE SONG DEDICATIONS =====
 
+// ===== LOAD PUBLIC APPROVED SONG DEDICATIONS =====
+
+async function loadApprovedSongSuggestions() {
+  const songList = document.getElementById("approvedSongList");
+
+  songList.textContent = "Loading reader dedications... ♡";
+
+  const { data, error } = await db
+    .from("song_suggestions")
+    .select("id, reader_name, story_title, song_title, artist, spotify_url, reason")
+    .eq("status", "approved")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    songList.textContent = "Unable to load reader dedications right now.";
+    console.error("Public song list error:", error);
+    return;
+  }
+
+  if (!data.length) {
+    songList.textContent = "No approved song dedications yet. Be the first to share one! ♡";
+    return;
+  }
+
+  songList.innerHTML = data.map(item => {
+    let spotifyButton = "";
+
+    if (item.spotify_url) {
+      try {
+        const link = new URL(item.spotify_url);
+
+        if (
+          link.protocol === "https:" &&
+          link.hostname === "open.spotify.com"
+        ) {
+          spotifyButton = `
+            <a href="${escapeHTML(link.href)}"
+               target="_blank"
+               rel="noopener noreferrer">
+              ♫ Listen on Spotify
+            </a>
+          `;
+        }
+      } catch (error) {
+        console.warn("Invalid Spotify link:", item.spotify_url);
+      }
+    }
+
+    return `
+      <article class="reader-song-card">
+        <span class="song-story-label">
+          ♡ FOR THE STORY: ${escapeHTML(item.story_title)}
+        </span>
+
+        <h4>${escapeHTML(item.song_title)}</h4>
+
+        <p><strong>Artist:</strong> ${escapeHTML(item.artist)}</p>
+
+        <p>${escapeHTML(item.reason)}</p>
+
+        <p>
+          <strong>Dedicated by:</strong>
+          ${escapeHTML(item.reader_name || "Anonymous reader")}
+        </p>
+
+        ${spotifyButton}
+      </article>
+    `;
+  }).join("");
+}
+
+// ===== END PUBLIC APPROVED SONG DEDICATIONS =====
+  
+
   async function checkAuthor() {
     const { data: { session } } = await db.auth.getSession();
 
